@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.okay.DTO.Todo
 import kotlinx.android.synthetic.main.activity_dashboard.*
@@ -21,15 +22,19 @@ class Dashboard : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        setSupportActionBar(toolbar_dh)
+        title = "Dashboard"
 
         DataBase = DataBase(this)
-        
+        rv_dashboard.layoutManager = LinearLayoutManager (this)
+        refreshList()
 
         fabDashboard.setOnClickListener{
             val dialog: AlertDialog.Builder = AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.dialog_dashboard,null)
             val toDoName : EditText =view.findViewById<EditText>(R.id.etTodo)
 
+            dialog.setView(view)
             dialog.setNegativeButton("Add") { _: DialogInterface, _: Int ->
                 if (toDoName.text.isNotEmpty()) {
                     val todo = Todo()
@@ -43,6 +48,16 @@ class Dashboard : AppCompatActivity() {
             dialog.show()
         }
 
+    }
+
+
+    override fun onResume() {
+        refreshList()
+        super.onResume()
+    }
+
+    private fun refreshList() {
+        rv_dashboard.adapter = DashboardAdapter(this, DataBase.getTodo())
     }
 
     class DashboardAdapter(val context: Context, val list: MutableList<Todo>): RecyclerView.Adapter<DashboardAdapter.ViewHolder>(){
