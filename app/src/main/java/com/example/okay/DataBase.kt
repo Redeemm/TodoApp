@@ -9,13 +9,12 @@ import com.example.okay.DTO.Todo
 
 class DataBase(val context: Context) : SQLiteOpenHelper(context, DB_NAME,null, DB_VERSION){
     override fun onCreate(db: SQLiteDatabase) {
-        val createTodoTable: String =
-            "CREATE TABLE ToDo (" +
+        val createTodoTable: String = "CREATE TABLE $TABLE_TODO (" +
                     "$COL_ID integer PRIMARY KEY AUTOINCREMENT" +
                     "$COL_CREATED_AT datetime DEFAULT CURRENT_TIMESTAMP" +
                     "$COL_NAME varchar)";
 
-        val createTodoItemTable: String = "CREATE TABLE ToDoListItem (" +
+        val createTodoItemTable: String = "CREATE TABLE $COL_TABLE_TODO_ITEM (" +
                     "$COL_ID integer PRIMARY KEY AUTOINCREMENT" +
                     "$COL_CREATED_AT datetime DEFAULT CURRENT_TIMESTAMP" +
                     "$COL_ID integer" +

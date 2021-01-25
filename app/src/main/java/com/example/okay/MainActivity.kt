@@ -22,10 +22,9 @@ class MainActivity : AppCompatActivity() {
 
                 logoImage.startAnimation(AnimationUtils.loadAnimation(this,R.anim.splash_out))
                 Handler().postDelayed({
-                    logoImage.visibility = View.GONE
 
-                    val intent = Intent(this, Dashboard::class.java)
-                    startActivity(intent)
+                    logoImage.visibility = View.GONE
+                    startActivity(Intent(this, Dashboard::class.java))
                     finish()
 
                 }, 1500)// delay in 1s
