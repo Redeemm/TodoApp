@@ -33,14 +33,14 @@ class DataBase(val context: Context) : SQLiteOpenHelper(context, DB_NAME,null, D
         val db: SQLiteDatabase = writableDatabase
         val cv = ContentValues()
         cv.put(COL_NAME, todo.name)
-        val Result: Long = db.insert(TABLE_TODO,null,cv)
+        val Result = db.insert(TABLE_TODO,null,cv)
         return Result!=(-1).toLong()
     }
 
     fun getTodo(): MutableList<Todo> {
-        val Result: MutableList<Todo> = ArrayList()
-        val db : SQLiteDatabase = readableDatabase
-        val queryResult: Cursor = db.rawQuery("SELECT * from $TABLE_TODO",null)
+        val result: MutableList<Todo> = ArrayList()
+        val db = readableDatabase
+        val queryResult = db.rawQuery("SELECT * from $TABLE_TODO",null)
 
         if (queryResult.moveToFirst()){
 
@@ -48,14 +48,12 @@ class DataBase(val context: Context) : SQLiteOpenHelper(context, DB_NAME,null, D
                 val todo = Todo()
                 todo.id = queryResult.getLong(queryResult.getColumnIndex(COL_ID))
                 todo.name = queryResult.getString(queryResult.getColumnIndex(COL_NAME))
-                Result.add(todo)
+                result.add(todo)
 
             } while (queryResult.moveToNext())
-
         }
-
         queryResult.close()
-        return  Result
+        return  result
     }
 
 }

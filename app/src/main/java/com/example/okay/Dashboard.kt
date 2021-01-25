@@ -1,18 +1,15 @@
 package com.example.okay
 
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.res.ColorStateListInflaterCompat.inflate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.okay.DTO.Todo
@@ -38,11 +35,10 @@ class Dashboard : AppCompatActivity() {
             dialog.setView(view)
 
             dialog.setPositiveButton("Add") { _: DialogInterface, _: Int ->
-
                 if (toDoName.text.isNotEmpty()) {
-                    val toDo = Todo()
-                    toDo.name = toDoName.text.toString()
-                    dataBase.addTodo(toDo)
+                    val todo = Todo()
+                    todo.name = toDoName.text.toString()
+                    dataBase.addTodo(todo)
                     refreshList()
                 }
             }
@@ -54,17 +50,18 @@ class Dashboard : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        refreshList()
-        super.onResume()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        refreshList()
+//    }
 
     private fun refreshList() {
         rv_dashboard.adapter = DashboardAdapter(this,dataBase.getTodo())
     }
 
 
-    class DashboardAdapter(val context: Context,val list: MutableList<Todo>) : RecyclerView.Adapter<DashboardAdapter.ViewHolder>(){
+    class DashboardAdapter(val context: Context,val list: MutableList<Todo>) :
+        RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
         class ViewHolder(v : View) : RecyclerView.ViewHolder(v){
             val toDoName : TextView = v.findViewById(R.id.tv_todoName)
         }
